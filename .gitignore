@@ -1,7 +1,4 @@
-*.swp
-*.pyc
-dict.cc.py.egg-info/
-dist/
-
-venv/
-.idea/
+result*
+__pycache__/
+.mypy_cache/
+.direnv/
