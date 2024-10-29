@@ -17,26 +17,16 @@
 
   outputs = inputs@{ flake-parts, ... }: flake-parts.lib.mkFlake { inherit inputs; } {
     systems = import inputs.systems;
-    perSystem = { inputs', pkgs, ... }: let
+    perSystem = { self', pkgs, ... }: let
       poetry2nix = inputs.poetry2nix.lib.mkPoetry2Nix { inherit pkgs; };
     in {
-
       packages.default = poetry2nix.mkPoetryApplication {
         projectDir = inputs.self;
-        groups = [ ];
-        checkGroups = [ ];
       };
-
       devShells.default = pkgs.mkShellNoCC {
-        packages = [
-          pkgs.poetry
-          (poetry2nix.mkPoetryEnv {
-            projectDir = inputs.self;
-            preferWheels = true;  # don't build locally to save time
-          })
-        ];
+        inputsFrom = [ self'.packages.default ];
+        packages = [ pkgs.poetry ];
       };
-
     };
   };
 }
