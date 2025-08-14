@@ -1,19 +1,26 @@
-[tool.poetry]
+[project]
 name = "dict.cc.py"
 version = "3.1.0"
+requires-python = ">=3.10"
 description = "Unofficial dict.cc command line interface"
-authors = [ "Raphael Baron" ]
-packages = [ { include = "scripts" }, { include = "dictcc" }]
+authors = [
+  { name = "Raphael Baron" }
+]
+dependencies = [
+  "beautifulsoup4>=4.12.2",
+  "requests>=2.31.0",
+  "colorama>=0.4.6",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-beautifulsoup4 = "^4.12.2"
-requests = "^2.31.0"
-colorama = "^0.4.6"
+[tool.hatch.build.targets.wheel]
+packages = [
+  "scripts",
+  "dictcc",
+]
 
-[tool.poetry.scripts]
+[project.scripts]
 "dict.cc.py" = "scripts.dictcc:run"
 
 [build-system]
-requires = [ "poetry-core" ]
-build-backend = "poetry.core.masonry.api"
+requires = [ "hatchling" ]
+build-backend = "hatchling.build"
